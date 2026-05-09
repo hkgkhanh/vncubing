@@ -1,0 +1,32 @@
+{
+    "0": {
+        "id": "0",
+        "rank": 19,
+        "name": "Qualification round",
+        "final": false
+    },
+    "1": {
+        "id": "1",
+        "rank": 29,
+        "name": "First round",
+        "final": false
+    },
+    "2": {
+        "id": "2",
+        "rank": 50,
+        "name": "Second round",
+        "final": false
+    },
+    "3": {
+        "id": "3",
+        "rank": 79,
+        "name": "Semi Final",
+        "final": false
+    },
+    "f": {
+        "id": "f",
+        "rank": 99,
+        "name": "Final",
+        "final": true
+    }
+}

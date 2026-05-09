@@ -1,0 +1,14 @@
+{
+    "ranking": {
+        "id": "ranking",
+        "text": "Top {n} competitors"
+    },
+    "percent": {
+        "id": "percent",
+        "text": "Top {n}% of competitors"
+    },
+    "attemptResult": {
+        "id": "attemptResult",
+        "text": "Competitors with result better than {n}"
+    }
+}

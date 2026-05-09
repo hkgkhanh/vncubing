@@ -1,0 +1,92 @@
+{
+    "1": {
+        "id": "1",
+        "sort_by": "best",
+        "sort_by_second": "average",
+        "expected_solve_count": 1,
+        "trim_fastest_n": 0,
+        "trim_slowest_n": 0,
+        "name": "Best of 1",
+        "short_name": "Bo1",
+        "allowed_first_phase_formats": []
+    },
+    "2": {
+        "id": "2",
+        "sort_by": "best",
+        "sort_by_second": "average",
+        "expected_solve_count": 2,
+        "trim_fastest_n": 0,
+        "trim_slowest_n": 0,
+        "name": "Best of 2",
+        "short_name": "Bo2",
+        "allowed_first_phase_formats": [
+            "1"
+        ]
+    },
+    "3": {
+        "id": "3",
+        "sort_by": "best",
+        "sort_by_second": "average",
+        "expected_solve_count": 3,
+        "trim_fastest_n": 0,
+        "trim_slowest_n": 0,
+        "name": "Best of 3",
+        "short_name": "Bo3",
+        "allowed_first_phase_formats": [
+            "1",
+            "2"
+        ]
+    },
+    "5": {
+        "id": "5",
+        "sort_by": "best",
+        "sort_by_second": "average",
+        "expected_solve_count": 5,
+        "trim_fastest_n": 1,
+        "trim_slowest_n": 1,
+        "name": "Best of 5",
+        "short_name": "Bo5",
+        "allowed_first_phase_formats": [
+            "1",
+            "2"
+        ]
+    },
+    "a": {
+        "id": "a",
+        "sort_by": "average",
+        "sort_by_second": "best",
+        "expected_solve_count": 5,
+        "trim_fastest_n": 1,
+        "trim_slowest_n": 1,
+        "name": "Average of 5",
+        "short_name": "Ao5",
+        "allowed_first_phase_formats": [
+            "2"
+        ]
+    },
+    "m": {
+        "id": "m",
+        "sort_by": "average",
+        "sort_by_second": "best",
+        "expected_solve_count": 3,
+        "trim_fastest_n": 0,
+        "trim_slowest_n": 0,
+        "name": "Mean of 3",
+        "short_name": "Mo3",
+        "allowed_first_phase_formats": [
+            "1",
+            "2"
+        ]
+    },
+    "h": {
+        "id": "h",
+        "sort_by": "best",
+        "sort_by_second": "average",
+        "expected_solve_count": 0,
+        "trim_fastest_n": 0,
+        "trim_slowest_n": 0,
+        "name": "Head-to-Head",
+        "short_name": "H2H",
+        "allowed_first_phase_formats": []
+    }
+}

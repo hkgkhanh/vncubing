@@ -1,0 +1,14 @@
+{
+    "ranking": {
+        "id": "ranking",
+        "text": "Top {n} thí sinh"
+    },
+    "percent": {
+        "id": "percent",
+        "text": "Top {n}% trong số thí sinh tham gia"
+    },
+    "attemptResult": {
+        "id": "attemptResult",
+        "text": "Thí  sinh với thành tích tốt hơn {n}"
+    }
+}
