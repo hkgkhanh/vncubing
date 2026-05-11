@@ -1,10 +1,8 @@
-from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from fastapi.responses import RedirectResponse
-from fastapi.security import OAuth2PasswordBearer
 import os
 from dotenv import load_dotenv
-from .dependencies import generate_token, get_password_hash, verify_password, get_user_by_email, get_user_by_wca_id, get_current_user
+from .dependencies import authenticate_user, create_access_token, get_password_hash, get_user_by_email, get_user_by_wca_id, get_current_user
 from .schemas import LoginRequest, EmailPasswordSignupRequest
 from users.schemas import UserPublic
 from users.models import User
@@ -22,24 +20,33 @@ API_VERSION = os.getenv("API_VERSION")
 API_PREFIX_WITH_VERSION = f"/api/v{API_VERSION}"
 WCA_APP_ID = os.getenv("WCA_APP_ID")
 WCA_SECRET = os.getenv("WCA_SECRET")
+ORIGIN = os.getenv("ORIGIN")
+ENV = os.getenv("ENV")
+KEY_EXPIRE = 60 * 60 * 24 * 3  # 3 days
 
 router = APIRouter()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
 @router.post('/login')
-def login(request_data: LoginRequest, db: Session = Depends(get_db)):
-    user = get_user_by_email(db, request_data.email)
+def login(response: Response, request_data: LoginRequest, db: Session = Depends(get_db)):
+    user = authenticate_user(db, request_data.email, request_data.password)
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token = create_access_token(data={"sub": user.id}, expires_seconds=KEY_EXPIRE)
+    response.set_cookie(
+        key="access_token", 
+        value=access_token, 
+        httponly=True,
+        max_age=KEY_EXPIRE,
+        expires=KEY_EXPIRE,
+        samesite="lax",
+        secure=True if ENV == "prod" else False
+    )
     
-    if verify_password(request_data.password, user.hashed_password):
-        token = generate_token(request_data.email)
-        return {
-            'token': token
-        }
-    else:
-        raise HTTPException(status_code=401, detail="Wrong email or password")
+    return {"message": "Login successful"}
     
 
 @router.post('/signup', response_model=UserPublic)
@@ -64,7 +71,10 @@ def signup(request_data: EmailPasswordSignupRequest, db: Session = Depends(get_d
     db.refresh(db_user)
     return db_user
 
-
+@router.post("/logout")
+def logout(response: Response):
+    response.delete_cookie("access_token")
+    return {"message": "Logged out"}
 
 
 @router.get('/oauth/wca/login')
@@ -145,10 +155,24 @@ def wca_callback(code: str, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(user)
 
-    token = generate_token(me_data['me']['email'])
-    return {
-        'token': token
-    }
+    access_token = create_access_token(
+        data={"sub": user.id},
+        expires_seconds=KEY_EXPIRE
+    )
+
+    response = RedirectResponse(url=f"{ORIGIN}/")
+
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        max_age=KEY_EXPIRE,
+        expires=KEY_EXPIRE,
+        samesite="lax",
+        secure=True if ENV == "prod" else False
+    )
+
+    return response
 
 @router.get("/oauth/wca/link")
 def link_existing_account_to_wca(current_user: User = Depends(get_current_user)):

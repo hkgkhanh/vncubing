@@ -2,7 +2,7 @@
 
 Organise competitions for Vietnamese cubing community
 
-## Install and run the project
+## Getting started
 
 Requirements: Python 3.11 and MySQL.
 
@@ -12,7 +12,15 @@ git clone https://github.com/hkgkhanh/vncubing.git
 cd vncubing
 ```
 
-2. Run backend server
+2. Setup database
+
+Make sure MySQL is running, then execute the [schema file](data/db_schema.sql).
+```cmd
+mysql -u <your_username> -p < data/db_schema.sql
+```
+<!-- Optionally, you can add pre-built data to the database. (COMING SOON) -->
+
+3. Run backend server
 ```cmd
 cd backend
 pip install -r requirements.txt
