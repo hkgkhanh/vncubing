@@ -14,9 +14,9 @@ cd vncubing
 
 2. Setup database
 
-Make sure MySQL is running, then execute the [schema file](data/db_schema.sql).
+Make sure MySQL is running, then execute the [schema file](data/db/schema.sql).
 ```cmd
-mysql -u <your_username> -p < data/db_schema.sql
+mysql -u <your_username> -p < data/db/schema.sql
 ```
 <!-- Optionally, you can add pre-built data to the database. (COMING SOON) -->
 
